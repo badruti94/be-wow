@@ -66,3 +66,55 @@ exports.login = async (req, res) => {
         })
     }
 }
+
+
+exports.register = async (req, res) => {
+    const schema = Joi.object({
+        fullName: Joi.string().min(5).required(),
+        email: Joi.string().email().min(6).required(),
+        password: Joi.string().min(6).required(),
+        role: Joi.string().min(4).required()
+    })
+
+    const {
+        error
+    } = schema.validate(req.body)
+
+    if (error) {
+        return res.status(400).send({
+            error: {
+                message: error.details[0].message
+            }
+        })
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10)
+        const hashPassword = await bcrypt.hash(req.body.password, salt)
+        const userInserted = await user.create({
+            ...req.body,
+            name: req.body.fullName,
+            password: hashPassword
+        })
+
+        const token = jwt.sign({
+            id: userInserted.id
+        }, process.env.TOKEN_KEY)
+
+        res.send({
+            status: 'success',
+            data: {
+                user: {
+                    email: userInserted.email,
+                    token
+                }
+            }
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            status: 'failed',
+            message: 'Server Error'
+        })
+    }
+}
