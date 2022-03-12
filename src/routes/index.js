@@ -5,8 +5,15 @@ const {
     login,
     register
 } = require('../controllers/auth')
+const {
+    getUsers,
+    deleteUser
+} = require('../controllers/user')
 
 router.post('/login', login)
 router.post('/register', register)
+
+router.get('/users', getUsers)
+router.delete('/user/:id_user', deleteUser)
 
 module.exports = router
