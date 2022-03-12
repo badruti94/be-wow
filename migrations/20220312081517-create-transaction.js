@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       expiredDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       paymentStatus: {
         type: Sequelize.STRING

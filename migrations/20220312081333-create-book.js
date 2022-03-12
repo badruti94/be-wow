@@ -11,20 +11,20 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
+      publicationDate: {
+        type: Sequelize.DATEONLY
+      },
+      pages: {
+        type: Sequelize.INTEGER
+      },
       author: {
         type: Sequelize.STRING
-      },
-      about: {
-        type: Sequelize.TEXT
       },
       isbn: {
         type: Sequelize.STRING
       },
-      publicationDate: {
-        type: Sequelize.DATE
-      },
-      pages: {
-        type: Sequelize.INTEGER
+      about: {
+        type: Sequelize.TEXT
       },
       bookFile: {
         type: Sequelize.STRING
