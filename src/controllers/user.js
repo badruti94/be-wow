@@ -27,7 +27,7 @@ exports.getUsers = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const id = await user.destroy({
+        await user.destroy({
             where: {
                 id: req.params.id_user
             }
@@ -36,7 +36,7 @@ exports.deleteUser = async (req, res) => {
         res.send({
             status: 'success',
             data: {
-                id
+                id: parseInt(req.params.id_user)
             }
         })
     } catch (error) {

@@ -119,7 +119,7 @@ exports.addBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
     try {
-        const id = await book.update(req.body, {
+        await book.update(req.body, {
             where: {
                 id: req.params.bookId
             }
@@ -155,14 +155,14 @@ exports.updateBook = async (req, res) => {
 
 exports.deleteBook = async (req, res) => {
     try {
-        const bookData = await book.findOne({
+        const data = await book.findOne({
             where: {
                 id: req.params.bookId
             },
             attributes: ['bookFile']
         })
 
-        fs.unlink('uploads/' + bookData.bookFile, err => {
+        fs.unlink('uploads/' + data.bookFile, err => {
             if (err) {
                 return res.status(500).send({
                     status: 'failed',

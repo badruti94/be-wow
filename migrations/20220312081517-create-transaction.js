@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       expiredDate: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATEONLY,
+        defaultValue: Sequelize.fn('now')
       },
       paymentStatus: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'Pending'
       },
       userId: {
         type: Sequelize.INTEGER,

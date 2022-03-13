@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 const {
-    authAdmin
+    authAdmin,
+    auth
 } = require('../middleware/auth')
 const {
-    uploadFileEpub
+    uploadFileEpub,
+    uploadFile
 } = require('../middleware/uploadFile')
 
 const {
@@ -23,6 +25,12 @@ const {
     getUsers,
     deleteUser
 } = require('../controllers/user')
+const {
+    addTransaction,
+    updateTransaction,
+    getTransaction,
+    getTransactions
+} = require('../controllers/transaction')
 
 router.post('/login', login)
 router.post('/register', register)
@@ -35,5 +43,10 @@ router.get('/book/:bookId', getBook)
 router.post('/book', authAdmin, uploadFileEpub("bookFile"), addBook)
 router.put('/book/:bookId', authAdmin, updateBook)
 router.delete('/book/:bookId', authAdmin, deleteBook)
+
+router.post('/transaction', auth, uploadFile("transferProof"), addTransaction)
+router.patch('/transaction/:id', auth, updateTransaction)
+router.get('/transaction/:id', getTransaction)
+router.get('/transaction', getTransactions)
 
 module.exports = router
