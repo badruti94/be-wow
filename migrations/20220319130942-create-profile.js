@@ -1,26 +1,24 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('transactions', {
+    await queryInterface.createTable('profiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      accountNumber: {
+      gender: {
+        type: Sequelize.BOOLEAN
+      },
+      phoneNumber: {
         type: Sequelize.STRING
       },
-      transferProof: {
+      address: {
+        type: Sequelize.TEXT
+      },
+      photo: {
         type: Sequelize.STRING
-      },
-      expiredDate: {
-        type: Sequelize.DATEONLY,
-        defaultValue: Sequelize.fn('now')
-      },
-      paymentStatus: {
-        type: Sequelize.STRING,
-        defaultValue: 'Pending'
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -34,17 +32,15 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('transactions');
+    await queryInterface.dropTable('profiles');
   }
 };

@@ -18,7 +18,8 @@ module.exports = {
         author: 'Varelie Patkar',
         isbn: '9781789807510',
         about: 'Serangkai menceritakan berbagai macam hal',
-        bookFile: 'serangkai.epub'
+        bookFile: 'serangkai.epub',
+        cover: 'buku-1.png',
       },
       {
         title: 'Kabar Rahasia dari alam kubur',
@@ -27,7 +28,8 @@ module.exports = {
         author: 'DR. Kamil Yusuf Al-Atum',
         isbn: '9781789807533',
         about: 'Menggambarkan rahasia alam kubur',
-        bookFile: 'kabar-rahasia.epub'
+        bookFile: 'kabar-rahasia.epub',
+        cover: 'buku-2.png',
       },
     ]
     await queryInterface.bulkInsert('books', books)

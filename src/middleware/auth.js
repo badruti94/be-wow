@@ -4,7 +4,7 @@ exports.auth = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]
 
     if (!token) {
-        return res.send({
+        return res.status(401).send({
             message: 'Access is denied'
         })
     }
@@ -26,7 +26,7 @@ exports.authAdmin = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]
 
     if (!token) {
-        return res.send({
+        return res.status(401).send({
             message: 'Access is denied'
         })
     }
@@ -34,7 +34,7 @@ exports.authAdmin = (req, res, next) => {
     try {
         const verified = jwt.verify(token, process.env.TOKEN_KEY)
         if (verified.role !== 'admin') {
-            return res.send({
+            return res.status(401).send({
                 message: 'Access is denied'
             })
         }

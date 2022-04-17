@@ -54,9 +54,12 @@ exports.login = async (req, res) => {
             status: 'success',
             data: {
                 user: {
+                    id: userExist.id,
+                    name: userExist.name,
                     email: userExist.email,
-                    token
-                }
+                    role: userExist.role,
+                },
+                token
             }
         })
 
@@ -106,9 +109,12 @@ exports.register = async (req, res) => {
             status: 'success',
             data: {
                 user: {
+                    id: userInserted.id,
+                    name: userInserted.name,
                     email: userInserted.email,
-                    token
-                }
+                    role: userInserted.role,
+                },
+                token
             }
         })
 

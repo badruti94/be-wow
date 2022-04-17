@@ -1,4 +1,3 @@
-const Joi = require('joi')
 const fs = require('fs')
 
 const {
@@ -56,7 +55,6 @@ exports.getBooks = async (req, res) => {
 }
 
 exports.getBook = async (req, res) => {
-    console.log(new Date());
     try {
         const data = await book.findOne({
             where: {
@@ -73,7 +71,8 @@ exports.getBook = async (req, res) => {
                 book: {
                     ...data.dataValues,
                     isbn: parseInt(data.dataValues.isbn),
-                    publicationDate: getMonthYear(data.dataValues.publicationDate)
+                    publicationDate: getMonthYear(data.dataValues.publicationDate),
+                    publicationDateYmd: data.dataValues.publicationDate,
                 }
             }
         })
@@ -85,12 +84,12 @@ exports.getBook = async (req, res) => {
     }
 }
 
-
 exports.addBook = async (req, res) => {
     try {
         let data = await book.create({
             ...req.body,
-            bookFile: req.file.filename
+            bookFile: req.files['bookFile'][0].filename,
+            cover: req.files['cover'][0].filename,
         })
         data = {
             id: data.id,
@@ -101,6 +100,7 @@ exports.addBook = async (req, res) => {
             isbn: parseInt(data.isbn),
             about: data.about,
             bookFile: data.bookFile,
+            cover: data.cover
         }
 
         res.send({
@@ -119,6 +119,13 @@ exports.addBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
     try {
+        if (req.files['bookFile']) {
+            req.body.bookFile = req.files['bookFile'][0].filename
+        }
+        if (req.files['cover']) {
+            req.body.cover = req.files['cover'][0].filename
+        }
+
         await book.update(req.body, {
             where: {
                 id: req.params.bookId
@@ -133,7 +140,6 @@ exports.updateBook = async (req, res) => {
                 exclude: ['createdAt', 'updatedAt']
             }
         })
-
 
         res.send({
             status: 'success',
@@ -164,10 +170,10 @@ exports.deleteBook = async (req, res) => {
 
         fs.unlink('uploads/' + data.bookFile, err => {
             if (err) {
-                return res.status(500).send({
+                /* return res.status(500).send({
                     status: 'failed',
                     message: err.message
-                })
+                }) */
             }
         })
 
@@ -186,7 +192,8 @@ exports.deleteBook = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             status: 'failed',
-            message: 'Server Error'
+            message: 'Server Error',
+            error
         })
     }
 }

@@ -59,7 +59,6 @@ module.exports = {
         password: hashPassword,
         role: 'user',
       },
-
     ]
     await queryInterface.bulkInsert('users', users)
   },

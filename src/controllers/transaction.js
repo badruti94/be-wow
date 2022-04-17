@@ -15,7 +15,6 @@ const getDistance = (startDate, endDate) => {
 
     const dayDistance = distance / (miliseconds * secondsInDay)
     return Math.floor(dayDistance)
-
 }
 
 const dataFormat = data => {
@@ -34,7 +33,6 @@ const dataFormat = data => {
 
 exports.addTransaction = async (req, res) => {
     try {
-
         let data = await transaction.create({
             ...req.body,
             transferProof: req.file.filename
@@ -52,8 +50,6 @@ exports.addTransaction = async (req, res) => {
                 exclude: ['userId', 'createdAt', 'updatedAt']
             }
         })
-
-
 
         data = dataFormat(data)
 
@@ -124,7 +120,6 @@ exports.updateTransaction = async (req, res) => {
     }
 }
 
-
 exports.getTransaction = async (req, res) => {
     try {
         data = await transaction.findOne({
@@ -179,6 +174,40 @@ exports.getTransactions = async (req, res) => {
             status: 'success',
             data: {
                 transactions
+            }
+        })
+    } catch (error) {
+        res.status(500).send({
+            status: 'failed',
+            message: 'Server Error'
+        })
+    }
+}
+
+exports.isSubcribed = async (req, res) => {
+    try {
+        let data = await transaction.findOne({
+            where: {
+                userId: req.params.userId
+            },
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        })
+        if (!data) {
+            return res.send({
+                status: 'success',
+                data: {
+                    isSubcribed: false
+                }
+            })
+        }
+        data = dataFormat(data)
+        data = data.userStatus == 'Active' ? true : false
+        res.send({
+            status: 'success',
+            data: {
+                isSubcribed: data
             }
         })
     } catch (error) {
